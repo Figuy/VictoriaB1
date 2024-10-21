@@ -307,3 +307,61 @@ ynov.com.               300     IN      A       172.67.74.226
 ```
 
 ### Effectuez une requête DNS manuellement depuis client1.tp6.b1
+
+```powershell
+victoria@client1:~$ dig web.tp6.b1 @10.6.2.12
+```
+
+```powershell
+; <<>> DiG 9.18.28-0ubuntu0.24.04.1-Ubuntu <<>> web.tp6.b1 @10.6.2.12
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 54343
+;; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: bfb3eaa90497e9c401000000671602d7adbbf994ebe3e1f2 (good)
+;; QUESTION SECTION:
+;web.tp6.b1.                    IN      A
+
+;; ANSWER SECTION:
+web.tp6.b1.             86400   IN      A       10.6.2.11
+
+;; Query time: 5 msec
+;; SERVER: 10.6.2.12#53(10.6.2.12) (UDP)
+;; WHEN: Mon Oct 21 09:29:27 CEST 2024
+;; MSG SIZE  rcvd: 83
+```
+
+##Capturez une requête DNS et la réponse de votre serveur
+
+[tcpdump.pcap](tcpdump.pcap)
+
+## 3. Serveur DHCP
+
+Créez un nouveau client client2.tp6.b1 vitefé
+
+```powershell
+victoria@clt2:~$ ip a
+2: enp0s3: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc fq_codel state UP group default qlen 1000
+    link/ether 08:00:27:ef:fd:c3 brd ff:ff:ff:ff:ff:ff
+    inet 10.6.1.38/24 metric 100 brd 10.6.1.255 scope global dynamic enp0s3
+       valid_lft 42739sec preferred_lft 42739sec
+    inet6 fe80::a00:27ff:feef:fdc3/64 scope link
+       valid_lft forever preferred_lft forever
+```
+
+```powershell
+victoria@clt2:~$ resolvectl
+Global
+         Protocols: -LLMNR -mDNS -DNSOverTLS DNSSEC=no/unsupported
+  resolv.conf mode: stub
+
+Link 2 (enp0s3)
+    Current Scopes: DNS
+         Protocols: +DefaultRoute -LLMNR -mDNS -DNSOverTLS DNSSEC=no/unsupported
+Current DNS Server: 10.6.2.12
+       DNS Servers: 10.6.2.12
+```
+
